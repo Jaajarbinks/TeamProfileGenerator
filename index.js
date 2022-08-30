@@ -3,60 +3,89 @@ const fs = require('fs')
 const Employee = require('./lib/employee')
 const Engineer = require('./lib/engineer')
 const Intern = require('./lib/intern')
+const Manager = require('./lib/manager')
+const Groop = require('./lib/groop')
 
-const manager = () => {
-  return inquirer.prompt([
-    {
-      type: 'input',
-      name: 'manager',
-      message: 'Who is the manager?',
-    },
-    {
-      type: 'input',
-      name: 'github',
-      message: 'what is the GitHub',
-    },
-    {
-      type: 'input',
-      name: 'email',
-      message: 'what is the email',
-    },
-  ])
-}
-addEmployee = () => {
-  return inquirer.prompt([])
-}
+let groop = new Groop()
 
-const generateHTML = ({ name, location, github, linkedin }) =>
-  `<!DOCTYPE html>
-  <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <title>Document</title>
-  </head>
-  <body>
-    <div class="jumbotron jumbotron-fluid">
-    <div class="container">
-      <h1 class="display-4">Hi! My name is ${name}</h1>
-      <p class="lead">I am from ${location}.</p>
-      <h3>Example heading <span class="badge badge-secondary">Contact Me</span></h3>
-      <ul class="list-group">
-        <li class="list-group-item">My GitHub username is ${github}</li>
-        <li class="list-group-item">LinkedIn: ${linkedin}</li>
-      </ul>
-    </div>
-  </div>
-  </body>
-  </html>`
-
-const init = () => {
-  promptUser()
-    // Use writeFileSync method to use promises instead of a callback function
-    .then((answers) => fs.writeFileSync('index.html', generateHTML(answers)))
-    .then(() => console.log('Successfully wrote to index.html'))
-    .catch((err) => console.error(err))
+function getNext(option) {
+  if (option === 'addEmployee') {
+    addEmployee()
+  }
+  if (option === 'addEngineer') {
+    addEngineer()
+  }
+  if (option === 'addIntern') {
+    addIntern()
+  }
+  if (option === 'addManager') {
+    addManager()
+  }
+  if (option === 'finish') {
+    groop.saveFile()
+  }
 }
 
-init()
+function addEmployee() {
+  inquirer
+    .prompt([
+      {
+        type: 'list',
+        name: 'Employee',
+        message: 'Who is the Employee you want?',
+        choices: ['Manager', 'Engineer', 'Intern', 'Employee'],
+      },
+      {
+        type: 'input',
+        name: 'employeeEmail',
+        message: 'Email address of the employee?',
+      },
+      {
+        type: 'input',
+        name: 'employeeId',
+        messages: 'what is the id for this employee',
+      },
+      {
+        type: 'list',
+        name: 'addMore',
+        choices: [
+          {
+            value: 'addEmployee',
+            name: 'add employee',
+          },
+          {
+            value: 'addEngineer',
+            name: 'add engineer',
+          },
+          {
+            value: 'addIntern',
+            name: 'add intern',
+          },
+          {
+            value: 'finish',
+            name: 'Finish',
+          },
+        ],
+      },
+    ])
+    .then((answers) => {
+      const employee = new Employee(
+        answers.employeeId,
+        answers.employeeName,
+        answers.employeeEmail,
+      )
+      groop.addPerson(employee)
+      getNext(answers.addMore)
+    })
+}
+function generateHTML() {
+  const stringifiedGroop = JSON.stringify(Groop)
+
+  fs.writeFile('groop.txt', stringifiedGroop, (err) => {
+    if (err) {
+      console.log(err)
+    } else {
+      console.log('Successfully created index.html!')
+    }
+  })
+}
