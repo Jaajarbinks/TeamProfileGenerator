@@ -1,91 +1,120 @@
 const inquirer = require('inquirer')
 const fs = require('fs')
-const Employee = require('./lib/employee')
+const baseHtml = require('./dist/baseHTML.js')
+const Manager = require('./lib/manager')
 const Engineer = require('./lib/engineer')
 const Intern = require('./lib/intern')
-const Manager = require('./lib/manager')
-const Groop = require('./lib/groop')
 
-let groop = new Groop()
+const team = []
 
-function getNext(option) {
-  if (option === 'addEmployee') {
-    addEmployee()
-  }
-  if (option === 'addEngineer') {
-    addEngineer()
-  }
-  if (option === 'addIntern') {
-    addIntern()
-  }
-  if (option === 'addManager') {
-    addManager()
-  }
-  if (option === 'finish') {
-    groop.saveFile()
-  }
-}
-
-function addEmployee() {
+init = () => {
   inquirer
     .prompt([
       {
-        type: 'list',
-        name: 'Employee',
-        message: 'Who is the Employee you want?',
-        choices: ['Manager', 'Engineer', 'Intern', 'Employee'],
+        type: 'input',
+        name: 'TM',
+        message: 'what is the name of this project?',
       },
       {
         type: 'input',
-        name: 'employeeEmail',
-        message: 'Email address of the employee?',
-      },
-      {
-        type: 'input',
-        name: 'employeeId',
-        messages: 'what is the id for this employee',
+        name: 'TM1',
+        message: 'what is the name?',
       },
       {
         type: 'list',
-        name: 'addMore',
-        choices: [
-          {
-            value: 'addEmployee',
-            name: 'add employee',
-          },
-          {
-            value: 'addEngineer',
-            name: 'add engineer',
-          },
-          {
-            value: 'addIntern',
-            name: 'add intern',
-          },
-          {
-            value: 'finish',
-            name: 'Finish',
-          },
-        ],
+        name: 'TM1Job',
+        message: 'what do they make?',
+        choices: ['Engineer', 'Intern', 'Manager'],
+      },
+      {
+        type: 'input',
+        name: 'TM1Id',
+        message: 'what is the id',
+      },
+      {
+        type: 'input',
+        name: 'TM1Email',
+        message: 'what is the email',
+      },
+      {
+        type: 'input',
+        name: 'TM1Github',
+        message: 'what is the github',
+      },
+      {
+        type: 'input',
+        name: 'TM2manager',
+        message: 'what is the name?',
+      },
+      {
+        type: 'list',
+        name: 'TM2Job',
+        message: 'who do they manage?',
+        choices: ['Engineer', 'Intern', 'Manager'],
+      },
+      {
+        type: 'input',
+        name: 'TM2Id',
+        message: 'what is the id',
+      },
+      {
+        type: 'input',
+        name: 'TM2Email',
+        message: 'what is the email',
+      },
+      {
+        type: 'input',
+        name: 'TM2Github',
+        message: 'what is the github',
+      },
+      {
+        type: 'input',
+        name: 'managersOfficeNumber',
+        message: 'whats the officeNumber?',
+      },
+      {
+        type: 'input',
+        name: 'TM3intern',
+        message: 'what is the name?',
+      },
+      {
+        type: 'list',
+        name: 'TM3Job',
+        message: 'what is the school?',
+        choices: ['Engineer', 'Intern', 'Manager'],
+      },
+      {
+        type: 'input',
+        name: 'TM3Id',
+        message: 'what is the id',
+      },
+      {
+        type: 'input',
+        name: 'TM3Email',
+        message: 'what is the email',
+      },
+      {
+        type: 'input',
+        name: 'TM3Github',
+        message: 'what is the github',
+      },
+      {
+        type: 'list',
+        name: 'school',
+        message: 'what school did you go to?',
+        choices: ['DU', 'MIT', 'USC'],
       },
     ])
-    .then((answers) => {
-      const employee = new Employee(
-        answers.employeeId,
-        answers.employeeName,
-        answers.employeeEmail,
-      )
-      groop.addPerson(employee)
-      getNext(answers.addMore)
+    .then((answer) => {
+      const stringifiedTeam = JSON.stringify(answer)
+      fs.writeFile('./dist/make.html', stringifiedTeam, 'uft-8', (err) => {
+        if (err) {
+          console.log(err)
+        } else {
+          console.log('Successfully created index.html!')
+        }
+      })
     })
 }
-function generateHTML() {
-  const stringifiedGroop = JSON.stringify(Groop)
 
-  fs.writeFile('groop.txt', stringifiedGroop, (err) => {
-    if (err) {
-      console.log(err)
-    } else {
-      console.log('Successfully created index.html!')
-    }
-  })
-}
+init()
