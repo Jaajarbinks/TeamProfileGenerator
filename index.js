@@ -106,12 +106,107 @@ init = () => {
       },
     ])
     .then((answer) => {
-      const stringifiedTeam = JSON.stringify(answer)
-      fs.writeFile('./dist/make.html', stringifiedTeam, 'uft-8', (err) => {
+      return `<!DOCTYPE html>
+      <html lang="en">
+        <head>
+          <meta charset="UTF-8" />
+          <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <title>Document</title>
+        </head>
+        <body>
+          body>
+          <section class="nav">
+            <div class="header">
+              <h1 class="teamname">${answer.TM}</h1>
+            </div>
+          </section>
+          <section class="body">
+            <div class="cardcontainer">
+              <div class="card">
+                <div class="cardheader">
+                  <h1>${answer.TM1}</h1>
+                  <h3>${answer.TM1Job}</h3>
+                </div>
+                <div class="cardbody">
+                  <div class="tile"><p>ID: ${answer.TM1Job}</p></div>
+                  <div class="tile">
+                    Email:
+                    <a href="mailto:${answer.TM1Email}" target="_blank">${answer.TM1Email}</a>
+                  </div>
+                  <div class="tile">
+                    Github:
+                    <a href="https://github.com/${answer.TM1Github}" target="_blank"
+                      >${answer.TM1Github}</a
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="cardcontainer">
+              <div class="card">
+                <div class="cardheader">
+                  <h1>${answer.TM2manager}</h1>
+                  <h3>${answer.TM2Job}</h3>
+                </div>
+                <div class="cardbody">
+                  <div class="tile"><p>ID: ${answer.TM2Id}</p></div>
+                  <div class="tile">
+                    Email:
+                    <a href="mailto:${answer.TM2Email}" target="_blank">${answer.TM2Email}</a>
+                  </div>
+                  <div class="tile">
+                    Github:
+                    <a href="https://github.com/${answer.TM2Github}" target="_blank"
+                      >${answer.TM2Github}</a
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="cardcontainer">
+              <div class="card">
+                <div class="cardheader">
+                  <h1>${answer.TM3intern}</h1>
+                  <h3>${answer.TM3Jobtitle}</h3>
+                  <h4>${answer.school}</h4>
+                </div>
+                <div class="cardbody">
+                  <div class="tile"><p>ID: ${answer.TM3Id}</p></div>
+                  <div class="tile">
+                    Email:
+                    <a href="mailto:${answer.TM3Email}" target="_blank">${answer.TM3Email}</a>
+                  </div>
+                  <div class="tile">
+                    Github:
+                    <a href="https://github.com/${answer.TM3Github}" target="_blank"
+                      >${answer.TM3Github}</a
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </body>
+      </html>`
+      console.log(answer)
+    })
+    // .then((answer) => {
+    //   const stringifiedTeam = JSON.stringify(answer)
+    //   fs.writeFile('./dist/make.html', stringifiedTeam, (err) => {
+    //     if (err) {
+    //       console.log(err)
+    //     } else {
+    //       console.log('Successfully created !')
+    //     }
+    //   })
+    // })
+    .then((answer) => {
+      fs.writeFile('./dist/index.html', answer, (err) => {
         if (err) {
           console.log(err)
         } else {
-          console.log('Successfully created index.html!')
+          console.log('Successfully created !')
         }
       })
     })

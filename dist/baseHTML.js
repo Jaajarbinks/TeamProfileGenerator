@@ -1,5 +1,5 @@
 const inquirer = require('inquirer')
-const makeHTML = require('./make.html')
+// const makeHTML = require('./make.html')
 
 const makeHTML = ({
   TM,
