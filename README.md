@@ -22,8 +22,8 @@ jest; inquirer; express
 
 ## Usage
 
-- [picture](<![picture](assets/schema-seed%20error%20fixing%20lesson12.png)>)
-- [video](<[video](assets/short%20overview%20for%20week%2012.mp4)>)
+- [picture]()
+- [video](<[video](assets/challenge10.mp4)>)
 
 ## Contributing
 
